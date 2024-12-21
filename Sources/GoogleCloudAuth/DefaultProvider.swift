@@ -12,7 +12,8 @@ public actor DefaultProvider: Provider {
     }
 
     public func shutdown() async throws {
-        try await provider.shutdown()
+        try await _provider?.shutdown()
+        _provider = nil
     }
 
     private var _provider: Provider?
