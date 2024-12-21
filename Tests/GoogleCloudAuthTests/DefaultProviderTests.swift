@@ -2,7 +2,7 @@ import Testing
 import NIO
 @testable import GoogleCloudAuth
 
-@Suite struct DefaultProviderTests {
+@Suite(.serialized) struct DefaultProviderTests {
 
     @Test func bootstrap() async throws {
         let eventLoopGroup = MultiThreadedEventLoopGroup(numberOfThreads: 1)
@@ -54,5 +54,20 @@ import NIO
         func shutdown() async throws {
             shutdownCallCount += 1
         }
+    }
+
+    @Test func multipleShutdown() async throws {
+        let mockProvider = MockProvider()
+        await #expect(mockProvider.createSessionCallCount == 0)
+        await #expect(mockProvider.shutdownCallCount == 0)
+        await AuthorizationSystem.bootstrap(mockProvider)
+
+        _ = try await DefaultProvider.shared.provider
+
+        try await DefaultProvider.shared.shutdown()
+        await #expect(mockProvider.shutdownCallCount == 1)
+
+        try await DefaultProvider.shared.shutdown()
+        await #expect(mockProvider.shutdownCallCount == 1) // should still be 1 because it's already shutdown
     }
 }
