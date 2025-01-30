@@ -8,6 +8,7 @@ let package = Package(
   ],
   products: [
     .library(name: "GoogleCloudAuth", targets: ["GoogleCloudAuth"]),
+    .library(name: "GoogleCloudAuthTesting", targets: ["GoogleCloudAuthTesting"]),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
@@ -30,5 +31,12 @@ let package = Package(
       ]
     ),
     .testTarget(name: "GoogleCloudAuthTests", dependencies: ["GoogleCloudAuth"]),
+
+    .target(
+      name: "GoogleCloudAuthTesting",
+      dependencies: [
+        .target(name: "GoogleCloudAuth")
+      ]
+    ),
   ]
 )
