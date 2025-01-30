@@ -1,29 +1,29 @@
-import NIO
-import Foundation
 import AsyncHTTPClient
+import Foundation
 import JWTKit
+import NIO
 
 extension GoogleCloudSDKProvider {
-    
-    public struct Credentials {
 
-        public let clientID: String
-        public let clientSecret: String
-        public let refreshToken: String
-        public let tokenType: String
+  public struct Credentials {
 
-        public init(
-            clientID: String,
-            clientSecret: String,
-            refreshToken: String,
-            tokenType: String
-        ) {
-            self.clientID = clientID
-            self.clientSecret = clientSecret
-            self.refreshToken = refreshToken
-            self.tokenType = tokenType
-        }
+    public let clientID: String
+    public let clientSecret: String
+    public let refreshToken: String
+    public let tokenType: String
+
+    public init(
+      clientID: String,
+      clientSecret: String,
+      refreshToken: String,
+      tokenType: String
+    ) {
+      self.clientID = clientID
+      self.clientSecret = clientSecret
+      self.refreshToken = refreshToken
+      self.tokenType = tokenType
     }
+  }
 }
 
 extension GoogleCloudSDKProvider.Credentials: Sendable {}
@@ -34,10 +34,10 @@ extension GoogleCloudSDKProvider.Credentials: Hashable {}
 
 extension GoogleCloudSDKProvider.Credentials: Decodable {
 
-    enum CodingKeys: String, CodingKey {
-        case clientID = "client_id"
-        case clientSecret = "client_secret"
-        case refreshToken = "refresh_token"
-        case tokenType = "type"
-    }
+  enum CodingKeys: String, CodingKey {
+    case clientID = "client_id"
+    case clientSecret = "client_secret"
+    case refreshToken = "refresh_token"
+    case tokenType = "type"
+  }
 }
