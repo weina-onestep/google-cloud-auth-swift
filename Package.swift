@@ -18,7 +18,7 @@ let package = Package(
     .package(url: "https://github.com/rosecoder/retryable-task.git", from: "1.1.2"),
     .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.10.0"),
     .package(url: "https://github.com/vapor/jwt-kit.git", from: "5.0.0"),
-    .package(url: "https://github.com/grpc/grpc-swift.git", from: "2.0.0"),
+    .package(url: "https://github.com/grpc/grpc-swift-2.git", from: "2.0.0"),
   ],
   targets: [
     .target(
@@ -45,7 +45,7 @@ let package = Package(
       name: "GoogleCloudAuthGRPC",
       dependencies: [
         .target(name: "GoogleCloudAuth"),
-        .product(name: "GRPCCore", package: "grpc-swift"),
+        .product(name: "GRPCCore", package: "grpc-swift-2"),
       ]
     ),
   ]
