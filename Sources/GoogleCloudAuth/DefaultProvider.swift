@@ -13,26 +13,26 @@ public actor DefaultProvider: Provider {
   }
 
   public func shutdown() async throws {
-    try await _provider?.shutdown()
-    _provider = nil
+    try await _providerTask?.value.shutdown()
+    _providerTask = nil
   }
 
-  private var _provider: Provider?
+  private var _providerTask: Task<Provider, Error>?
 
   var provider: Provider {
     get async throws {
-      if let _provider {
-        return _provider
+      if let _providerTask {
+        return try await _providerTask.value
       }
-      let provider = try await resolveProvider()
-      self._provider = provider
-      return provider
+      let task = Task { try await resolveProvider() }
+      self._providerTask = task
+      return try await task.value
     }
   }
 
   fileprivate func resetProvider() async throws {
-    try await _provider?.shutdown()
-    _provider = nil
+    try await _providerTask?.value.shutdown()
+    _providerTask = nil
   }
 
   private nonisolated func resolveProvider() async throws -> Provider {
