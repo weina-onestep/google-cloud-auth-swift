@@ -23,17 +23,9 @@ public actor ServiceAccountProvider: Provider {
     }
   }
 
-  public init(credentialsURL url: URL) throws {
-    let credentialsData = try Data(contentsOf: url)
-    let credentials = try JSONDecoder().decode(Credentials.self, from: credentialsData)
+  public init(credentialsData cdata: Data) throws {
+    let credentials = try JSONDecoder().decode(Credentials.self, from: cdata)
     try self.init(credentials: credentials)
-  }
-
-  public init?(environmentVariableName: String = "GOOGLE_APPLICATION_CREDENTIALS") throws {
-    guard let urlString = ProcessInfo.processInfo.environment[environmentVariableName] else {
-      return nil
-    }
-    try self.init(credentialsURL: URL(fileURLWithPath: urlString))
   }
 
   public enum CreateSessionError: Error {
